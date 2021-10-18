@@ -3,17 +3,17 @@
 #include <math.h>
 
 
-//return vetor[inicio];
 int func(int *vetor, int inicio, int fim)
 {
-    if (inicio == fim){
-        printf("%d\n", vetor[inicio]);
-        return 0;
-    }
-    int mid = floor(fim / 2);
+    if (inicio == fim)
+        return vetor[inicio];
+    int mid = floor((inicio + fim) / 2);
     int esq = func(vetor, inicio, mid);
     int dir = func(vetor, mid+1, fim);
-    //printf("Inicio: %d\tFim: %d\tMid: %d\n", inicio, fim, mid);
+    if (esq >= dir)
+        return esq;
+    else
+        return dir;
 }
 
 int main()
@@ -36,10 +36,9 @@ int main()
         }
     }
 
-    // Chama funcao recursiva
+    // Chama funcao recursiva para todos os casos
     for (int i = 0; i < qtdTestes; i++){
-        func(vetores[i], 0, tamanhos[i] - 1);
-        //printf("%d\n", func(vetores[i], 0, tamanhos[i] - 1));
+        printf("%d\n", func(vetores[i], 0, tamanhos[i] - 1));
     }
 
     return 0;
