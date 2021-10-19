@@ -1,15 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
+#define TRUE 1
+#define FALSE 0
 
-int func(int *vetor, int tamanho)
+int func(int *vetor, int inicio, int fim)
 {
-    for (int i=0;i<tamanho; i++){
-        if(vetor[i] == i+1){
-            return 1;
-        }
+    if (inicio == fim){
+        if (vetor[inicio] == inicio + 1)
+            return TRUE;
+        else
+            return FALSE;
     }
-    return 0;
+    int mid = floor((inicio + fim) / 2);
+    int esq = func(vetor, inicio, mid);
+    int dir = func(vetor, mid + 1, fim);
+    if (dir == TRUE || esq == TRUE)
+        return TRUE;
+    else
+        return FALSE;
 }
 
 int main()
@@ -32,12 +42,14 @@ int main()
         }
     }
 
+    // Chama funcao recursiva para todos os casos
     for(int i = 0; i<qtdTestes; i++){
-        int x = func(vetores[i], tamanhos[i]);
+        int x = func(vetores[i], 0, tamanhos[i] - 1);
         if (x)
             printf("sim\n");
         else
             printf("nao\n");
     }
+
     return 0;
 }

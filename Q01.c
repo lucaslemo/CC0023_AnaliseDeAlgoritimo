@@ -9,7 +9,7 @@ int func(int *vetor, int inicio, int fim)
         return vetor[inicio];
     int mid = floor((inicio + fim) / 2);
     int esq = func(vetor, inicio, mid);
-    int dir = func(vetor, mid+1, fim);
+    int dir = func(vetor, mid + 1, fim);
     if (esq >= dir)
         return esq;
     else
