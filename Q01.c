@@ -41,5 +41,12 @@ int main()
         printf("%d\n", func(vetores[i], 0, tamanhos[i] - 1));
     }
 
+    // Liberando memoria alocada
+    free(tamanhos);
+    for (int i = 0; i < qtdTestes; i++){
+        free(vetores[i]);
+    }
+    free(vetores);
+
     return 0;
 }

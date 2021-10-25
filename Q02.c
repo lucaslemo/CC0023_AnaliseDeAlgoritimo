@@ -51,5 +51,12 @@ int main()
             printf("nao\n");
     }
 
+    // Liberando memoria alocada
+    free(tamanhos);
+    for (int i = 0; i < qtdTestes; i++){
+        free(vetores[i]);
+    }
+    free(vetores);
+
     return 0;
 }
