@@ -3,8 +3,20 @@
 #include <string.h>
 #include <math.h>
 
-int func(int *vetor, int inicio, int fim)
+char *func(int *bits, int dimensao)
 {
+    if (dimensao == 1){
+        char *mapaBits = (char*)malloc(6 * sizeof(char));
+        if (strcmp(bits, "1111") == 0)
+            strcpy(mapaBits, "1");
+        else if (strcmp(bits, "0000") == 0)
+            strcpy(mapaBits, "0");
+        else{
+            strcpy(mapaBits, "D");
+            strcat(mapaBits, bits);
+        }
+        return mapaBits;
+    }
 }
 
 int main()
@@ -27,7 +39,7 @@ int main()
 
     // Chama funcao recursiva para todos os casos
     for(int i = 0; i < qtdTestes; i++){
-        int x = func(bits[i], 0, dimensoes[i] - 1);
+        int x = func(bits[i], dimensoes[i]);
     }
 
     // Liberando memoria alocada
