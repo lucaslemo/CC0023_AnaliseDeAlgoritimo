@@ -3,7 +3,7 @@
 #include <string.h>
 #include <math.h>
 
-char *func(int *bits, int dimensao)
+char *func(char *bits, int dimensao)
 {
     if (dimensao == 1){
         char *mapaBits = (char*)malloc(6 * sizeof(char));
@@ -17,6 +17,66 @@ char *func(int *bits, int dimensao)
         }
         return mapaBits;
     }
+
+    char *d1 = (char*)malloc((int)pow(4, dimensao-1)+1 * sizeof(char));
+    char *d2 = (char*)malloc((int)pow(4, dimensao-1)+1 * sizeof(char));
+    char *d3 = (char*)malloc((int)pow(4, dimensao-1)+1 * sizeof(char));
+    char *d4 = (char*)malloc((int)pow(4, dimensao-1)+1 * sizeof(char));
+    d1[0] = '\0';
+    d2[0] = '\0';
+    d3[0] = '\0';
+    d4[0] = '\0';
+    int count = 0, aux = 1, indices[4] = {0, 0, 0, 0};
+
+    for (int i = 0; i < (int)pow(4, dimensao); i++){
+        if (i < pow(4, dimensao)/2){
+            if (count >= dimensao){
+                aux++;
+                count = 0;
+            }
+            if (aux % 2 != 0){
+                d1[indices[0]] = bits[i];
+                d1[indices[0] + 1] = '\0';
+                indices[0]++;
+            }
+            else{
+                d2[indices[1]] = bits[i];
+                d2[indices[1] + 1] = '\0';
+                indices[1]++;
+            }
+        }
+        else{
+            if (count >= dimensao){
+                aux++;
+                count = 0;
+            }
+            if (aux % 2 != 0){
+                d3[indices[2]] = bits[i];
+                d3[indices[2] + 1] = '\0';
+                indices[2]++;
+            }
+            else{
+                d4[indices[3]] = bits[i];
+                d4[indices[3] + 1] = '\0';
+                indices[3]++;
+            }
+        }
+        count ++;
+    }
+
+    char *conquista = (char*)malloc(((int)pow(4, dimensao) + dimensao + 1 ) * sizeof(char));
+    conquista[0] = '\0';
+    strcat(conquista, func(d1, dimensao - 1));
+    strcat(conquista, func(d2, dimensao - 1));
+    strcat(conquista, func(d3, dimensao - 1));
+    strcat(conquista, func(d4, dimensao - 1));
+
+    free(d1);
+    free(d2);
+    free(d3);
+    free(d4);
+
+    return conquista;
 }
 
 int main()
@@ -24,6 +84,7 @@ int main()
     // Inicializa as variaveis
     int qtdTestes;
     int *dimensoes;
+    char *x;
     char **bits;
 
     // Le as entradas
@@ -39,7 +100,7 @@ int main()
 
     // Chama funcao recursiva para todos os casos
     for(int i = 0; i < qtdTestes; i++){
-        int x = func(bits[i], dimensoes[i]);
+        printf("%s\n", func(bits[i], dimensoes[i]));
     }
 
     // Liberando memoria alocada
