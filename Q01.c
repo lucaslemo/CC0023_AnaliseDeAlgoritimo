@@ -5,15 +5,20 @@
 
 int func(int *vetor, int inicio, int fim)
 {
+    int mid = floor((fim - inicio)/2);
     if (inicio == fim)
-        return vetor[inicio];
-    int mid = floor((inicio + fim) / 2);
-    int esq = func(vetor, inicio, mid);
-    int dir = func(vetor, mid + 1, fim);
-    if (esq >= dir)
-        return esq;
-    else
-        return dir;
+        return inicio+1;
+    if (vetor[inicio] >= vetor[inicio+1])
+        return inicio+1;
+    if (vetor[fim] >= vetor[fim-1])
+        return fim+1;
+    if (vetor[mid-1] <= vetor[mid] && vetor[mid] >= vetor[mid+1])
+        return mid+1;
+
+    if (vetor[mid-1] > vetor[mid])
+        return func(vetor, inicio, mid);
+    else if (vetor[mid] < vetor[mid+1])
+        return func(vetor, mid+1, fim);
 }
 
 int main()

@@ -7,19 +7,21 @@
 
 int func(int *vetor, int inicio, int fim)
 {
+    int mid = floor((inicio + fim) / 2);
     if (inicio == fim){
         if (vetor[inicio] == inicio + 1)
             return TRUE;
         else
             return FALSE;
     }
-    int mid = floor((inicio + fim) / 2);
-    int esq = func(vetor, inicio, mid);
-    int dir = func(vetor, mid + 1, fim);
-    if (dir == TRUE || esq == TRUE)
+    if (vetor[mid] == mid+1)
         return TRUE;
-    else
-        return FALSE;
+
+    if (mid < vetor[mid])
+        return func(vetor, inicio, mid);
+    else if (mid > vetor[mid])
+        return func(vetor, mid+1, fim);
+
 }
 
 int main()
