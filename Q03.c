@@ -65,7 +65,8 @@ char *func(char *bits, int dimensao)
     }
 
     char *conquista = (char*)malloc(((int)pow(4, dimensao) + dimensao + 1 ) * sizeof(char));
-    conquista[0] = '\0';
+    conquista[0] = 'D';
+    conquista[1] = '\0';
     strcat(conquista, func(d1, dimensao - 1));
     strcat(conquista, func(d2, dimensao - 1));
     strcat(conquista, func(d3, dimensao - 1));
@@ -84,7 +85,6 @@ int main()
     // Inicializa as variaveis
     int qtdTestes;
     int *dimensoes;
-    char *x;
     char **bits;
 
     // Le as entradas
