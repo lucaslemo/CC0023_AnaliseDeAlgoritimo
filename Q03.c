@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 
+
 char *func(char *bits, int dimensao)
 {
     if (dimensao == 0 || dimensao == 1){
@@ -30,7 +31,7 @@ char *func(char *bits, int dimensao)
 
     for (int i = 0; i < (int)pow(4, dimensao); i++){
         if (i < pow(4, dimensao)/2){
-            if (count >= dimensao){
+            if (count >= (int)pow(2, dimensao-1)){
                 aux++;
                 count = 0;
             }
@@ -46,7 +47,7 @@ char *func(char *bits, int dimensao)
             }
         }
         else{
-            if (count >= dimensao){
+            if (count >= (int)pow(2, dimensao-1)){
                 aux++;
                 count = 0;
             }
@@ -64,27 +65,57 @@ char *func(char *bits, int dimensao)
         count ++;
     }
 
-    char *conquista = (char*)malloc(((int)pow(4, dimensao) + 6) * sizeof(char));
+    char *conquista = (char*)malloc(((int)pow(4, dimensao) + 6*dimensao) * sizeof(char));
     char *r1 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
     char *r2 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
     char *r3 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
     char *r4 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
-    conquista[0] = 'D';
-    conquista[1] = '\0';
     r1[0] = '\0';
     r2[0] = '\0';
     r3[0] = '\0';
     r4[0] = '\0';
 
-    strcat(r1, func(d1, dimensao - 1));
-    strcat(r2, func(d2, dimensao - 1));
-    strcat(r3, func(d3, dimensao - 1));
-    strcat(r4, func(d4, dimensao - 1));
+    strcpy(r1, func(d1, dimensao - 1));
+    strcpy(r2, func(d2, dimensao - 1));
+    strcpy(r3, func(d3, dimensao - 1));
+    strcpy(r4, func(d4, dimensao - 1));
 
-    strcat(conquista, r1);
-    strcat(conquista, r2);
-    strcat(conquista, r3);
-    strcat(conquista, r4);
+    if (r1[0] == r2[0] && r3[0] == r4[0] && r1[0] == r4[0] && r1[0] != 'D'){
+        conquista[0] = '\0';
+        strcpy(conquista, r1);
+    }
+    else {
+        int count2 = 1, aux2 = 0;;
+        conquista[0] = 'D';
+        while (r1[aux2] != '\0'){
+            conquista[count2] = r1[aux2];
+            aux2++;
+            count2++;
+        }
+        aux2 = 0;
+        while (r2[aux2] != '\0'){
+            conquista[count2] = r2[aux2];
+            aux2++;
+            count2++;
+        }
+        aux2 = 0;
+        while (r3[aux2] != '\0'){
+            conquista[count2] = r3[aux2];
+            aux2++;
+            count2++;
+        }
+        aux2 = 0;
+        while (r4[aux2] != '\0'){
+            conquista[count2] = r4[aux2];
+            aux2++;
+            count2++;
+        }
+        conquista[count2] = '\0';
+        /*strcat(conquista, r1);
+        strcat(conquista, r2);
+        strcat(conquista, r3);
+        strcat(conquista, r4);*/
+    }
 
     free(d1);
     free(d2);
@@ -104,6 +135,7 @@ int main()
     int qtdTestes;
     int *dimensoes;
     char **bits;
+    char *conquista;
 
     // Le as entradas
     setbuf(stdin, NULL);
@@ -118,7 +150,9 @@ int main()
 
     // Chama funcao recursiva para todos os casos
     for(int i = 0; i < qtdTestes; i++){
-        printf("%s\n", func(bits[i], dimensoes[i]));
+        conquista = func(bits[i], dimensoes[i]);
+        printf("%s\n", conquista);
+        free(conquista);
     }
 
     // Liberando memoria alocada
