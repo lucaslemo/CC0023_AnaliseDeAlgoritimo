@@ -111,10 +111,6 @@ char *func(char *bits, int dimensao)
             count2++;
         }
         conquista[count2] = '\0';
-        /*strcat(conquista, r1);
-        strcat(conquista, r2);
-        strcat(conquista, r3);
-        strcat(conquista, r4);*/
     }
 
     free(d1);
