@@ -5,11 +5,11 @@
 
 char *func(char *bits, int dimensao)
 {
-    if (dimensao == 1){
+    if (dimensao == 0 || dimensao == 1){
         char *mapaBits = (char*)malloc(6 * sizeof(char));
-        if (strcmp(bits, "1111") == 0)
+        if (strcmp(bits, "1111") == 0 || strcmp(bits, "1") == 0)
             strcpy(mapaBits, "1");
-        else if (strcmp(bits, "0000") == 0)
+        else if (strcmp(bits, "0000") == 0 || strcmp(bits, "0") == 0)
             strcpy(mapaBits, "0");
         else{
             strcpy(mapaBits, "D");
@@ -64,18 +64,36 @@ char *func(char *bits, int dimensao)
         count ++;
     }
 
-    char *conquista = (char*)malloc(((int)pow(4, dimensao) + dimensao + 1 ) * sizeof(char));
+    char *conquista = (char*)malloc(((int)pow(4, dimensao) + 6) * sizeof(char));
+    char *r1 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
+    char *r2 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
+    char *r3 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
+    char *r4 = (char*)malloc(((int)pow(4, dimensao - 1) + 2) * sizeof(char));
     conquista[0] = 'D';
     conquista[1] = '\0';
-    strcat(conquista, func(d1, dimensao - 1));
-    strcat(conquista, func(d2, dimensao - 1));
-    strcat(conquista, func(d3, dimensao - 1));
-    strcat(conquista, func(d4, dimensao - 1));
+    r1[0] = '\0';
+    r2[0] = '\0';
+    r3[0] = '\0';
+    r4[0] = '\0';
+
+    strcat(r1, func(d1, dimensao - 1));
+    strcat(r2, func(d2, dimensao - 1));
+    strcat(r3, func(d3, dimensao - 1));
+    strcat(r4, func(d4, dimensao - 1));
+
+    strcat(conquista, r1);
+    strcat(conquista, r2);
+    strcat(conquista, r3);
+    strcat(conquista, r4);
 
     free(d1);
     free(d2);
     free(d3);
     free(d4);
+    free(r1);
+    free(r2);
+    free(r3);
+    free(r4);
 
     return conquista;
 }
