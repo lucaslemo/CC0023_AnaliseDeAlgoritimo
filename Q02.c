@@ -5,7 +5,7 @@
 #define TRUE 1
 #define FALSE 0
 
-int func(long int *vetor, long int inicio, long int fim)
+int func(signed int *vetor, int inicio, int fim)
 {
     int mid = floor((inicio + fim)/2);
     if (inicio == fim){
@@ -26,25 +26,25 @@ int func(long int *vetor, long int inicio, long int fim)
 int main()
 {
     // Inicializa as variaveis
-    long int qtdTestes;
-    long int *tamanhos;
-    signed long int **vetores;
+    int qtdTestes;
+    int *tamanhos;
+    signed int **vetores;
 
     // Le as entradas
     setbuf(stdin, NULL);
-    scanf("%ld", &qtdTestes);
-    tamanhos = (long int*)malloc(qtdTestes * sizeof(long int));
-    vetores = (signed long int**)malloc(qtdTestes * sizeof(signed long int*));
+    scanf("%d", &qtdTestes);
+    tamanhos = (int*)malloc(qtdTestes * sizeof(int));
+    vetores = (signed int**)malloc(qtdTestes * sizeof(signed int*));
     for (long int i = 0; i < qtdTestes; i++){
-        scanf("%ld", &tamanhos[i]);
-        vetores[i] = (signed long int*)malloc(tamanhos[i] * sizeof(signed long int));
-        for (long int n = 0; n < tamanhos[i]; n++){
-            scanf("%ld", &vetores[i][n]);
+        scanf("%d", &tamanhos[i]);
+        vetores[i] = (signed int*)malloc(tamanhos[i] * sizeof(signed int));
+        for (int n = 0; n < tamanhos[i]; n++){
+            scanf("%d", &vetores[i][n]);
         }
     }
 
     // Chama funcao recursiva para todos os casos
-    for(long int i = 0; i < qtdTestes; i++){
+    for(int i = 0; i < qtdTestes; i++){
         if(func(vetores[i], 0, tamanhos[i] - 1))
             printf("sim\n");
         else
@@ -53,7 +53,7 @@ int main()
 
     // Liberando memoria alocada
     free(tamanhos);
-    for (long int i = 0; i < qtdTestes; i++){
+    for (int i = 0; i < qtdTestes; i++){
         free(vetores[i]);
     }
     free(vetores);
