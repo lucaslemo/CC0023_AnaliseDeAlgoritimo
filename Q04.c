@@ -2,19 +2,33 @@
 #include <stdlib.h>
 #include <math.h>
 
+
 int subMid(signed int *vetor, int mid, int inicio, int fim)
 {
-    int soma = vetor[mid];
-    int subConquista = 0;
-    for (int i = mid+1; i <= fim; i++){
+    int soma = vetor[mid], somaTotal = 0;
+    int subPares = 0, subImpares = 0, subConquista = 0;
+    for (int i = mid-1; i >= inicio; i--){
         soma += vetor[i];
         if (soma % 2 == 0)
-            subConquista++;
+            subPares++;
+        else
+            subImpares++;
     }
-    soma = vetor[mid] + vetor[mid+1];
-    for (int i = mid-1; i <= inicio; i--){
-        soma += vetor[i];
-        if (soma % 2 ==0)
+    subConquista = subPares;
+    somaTotal = soma;
+    for (int i = mid+1; i <= fim; i++){
+        somaTotal += vetor[i];
+        if (vetor[i] % 2 == 0)
+            subConquista += subPares;
+        else{
+            int aux = subPares;
+            subPares = subImpares;
+            subImpares = aux;
+            subConquista += subPares;
+        }
+    }
+    if (somaTotal % 2 == 0){
+        if (subPares == 0 && subImpares == 0)
             subConquista++;
     }
 
@@ -30,21 +44,12 @@ int func(signed int *vetor, int inicio, int fim)
             return 0;
     }
 
-    int soma = 0, conquista = 0;
-    for (int i = inicio; i <= fim; i++){
-        soma += vetor[i];
-    }
-    if (soma % 2 == 0)
-        conquista++;
-
     int mid = (int)floor((fim+inicio)/2);
     int esq = func(vetor, inicio, mid);
     int dir = func(vetor, mid+1, fim);
     int meio = subMid(vetor, mid, inicio, fim);
 
-    conquista += dir + esq + meio;
-
-    return conquista;
+    return dir + esq + meio;
 }
 
 int main()
